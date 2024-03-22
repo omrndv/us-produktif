@@ -7,7 +7,7 @@ class Data_Siswa extends Model
 {
     protected $table = 'datsis';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['nama', 'kelas', 'tipe', 'poin', 'username', 'password'];
+    protected $allowedFields = ['nama', 'kelas', 'tipe', 'poin', 'username', 'password', 'mapel', 'ttl', 'alamat'];
 
     public function getuserbyusername($username)
     {
@@ -33,30 +33,36 @@ class Data_Siswa extends Model
 
         return $this->response->setJSON(['kelas' => $result['kelas']]);
     }
+    
+    public function getStudentsWithPointsGreaterThan40()
+    {
+        $builder = $this->db->table('datsis');
+        $builder->where('poin >', 74);
+        return $builder->get()->getResultArray();
+    }
 
-    // public function getStudentsByTeacherClass($kelas_guru)
-    // {
-    //     $builder = $this->db->table('datsis');
-    //     $builder->where('kelas', $kelas_guru);
-    //     return $builder->get()->getResultArray();
-    // }
-
-    // public function getStudentsWithPointsGreaterThan40()
-    // {
-    //     $builder = $this->db->table('datsis'); 
-    //     $builder->where('poin >', 74);
-    //     return $builder->get()->getResultArray();
-    // }
+    public function getStudentsByTypeAndSort()
+    {
+        return $this->where('tipe', 'Siswa')
+            ->orderBy('kelas', 'ASC')
+            ->orderBy('nama', 'ASC')
+            ->findAll();
+    }
 
     public function deleteSiswa($id)
     {
         return $this->delete($id);
     }
-    
-    public function updateAdminWithLastUpdated($id, $editData)
+
+    public function getStudentsByClassAndType($kelas)
     {
-        return $this->where('id', $id)
-            ->set($editData)
-            ->update();
+        return $this->where('kelas', $kelas)
+            ->where('tipe', 'Siswa')
+            ->findAll();
+    }
+
+    public function updateProfile($id, $data)
+    {
+        return $this->update($id, $data);
     }
 }

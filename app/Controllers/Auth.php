@@ -19,7 +19,7 @@ class Auth extends BaseController
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
 
-        if (empty($username) || empty($password)) {
+        if (empty ($username) || empty ($password)) {
             $alertMessage = "Data tidak boleh ada yang kosong!";
             return redirect()->to('/login-siswa')->with('alert', $alertMessage);
         }
@@ -30,22 +30,28 @@ class Auth extends BaseController
             if ($user['password'] === $password) {
                 $session = session();
                 $session->set('logged_in', true);
-                $session->set('user_id', $user['id']);
+                $session->set('id', $user['id']);
                 $session->set('tipe', $user['tipe']);
                 $session->set('nama', $user['nama']);
                 $session->set('kelas', $user['kelas']);
+                $session->set('username', $user['username']);
                 $session->set('poin', $user['poin']);
+                $session->set('mapel', $user['mapel']);
+                $session->set('ttl', $user['ttl']);
+                $session->set('alamat', $user['alamat']);
 
                 $pesanSelamatDatang = "Selamat datang, " . $user['nama'] . "!";
                 $session->setFlashdata('pesan_selamat_datang', $pesanSelamatDatang);
 
-                // Redirect user to appropriate dashboard based on user type
                 if ($user['tipe'] === 'Siswa') {
                     return redirect()->to('/dashboard-siswa');
                 } elseif ($user['tipe'] === 'Guru') {
-                    return redirect()->to('/dashboard-guru');
+                    if (empty ($user['kelas'])) {
+                        return redirect()->to('/dashboard-guru');
+                    } else {
+                        return redirect()->to('/dashboard-walas');
+                    }
                 } else {
-                    // Handle other user types if needed
                     return redirect()->to('/');
                 }
 

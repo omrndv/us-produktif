@@ -1,17 +1,5 @@
 <div class="p-4 sm:ml-64 mt-4 mb-5">
     <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th,
-        td {
-            border: 2px solid black;
-            padding: 10px;
-            text-align: center;
-        }
-
         tr:hover td {
             background-color: #f0f0f0;
         }
@@ -24,28 +12,29 @@
                     karakter</p>
             </div>
         </div>
-        <div class="col-lg-8 mt-6 offset-lg-2">
-            <table>
-                <thead>
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Nama</th>
-                        <th scope="col">Kelas</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Muhammad Omar Nadiv</td>
-                        <td>12 RPL 4</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Omar</td>
-                        <td>12 RPL 3</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 mt-6">
+            <thead class="text-xs text-gray-800 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-800">
+                <tr>
+                    <th scope="col" class="px-3 py-3 text-center">No</th>
+                    <th scope="col" class="px-4 py-3">Nama</th>
+                    <th scope="col" class="px-4 py-3"></th>
+                    <th scope="col" class="px-6 py-3">Kelas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $no = 1;
+                foreach ($students as $student) {
+                    echo '<tr class="bg-white text-gray-800 dark:text-gray-800 dark:bg-gray-800 dark:border-gray-900 hover:bg-gray-50 dark:hover:bg-gray-600">';
+                    echo '<td class="px-3 py-4 text-center">' . $no++ . '</td>';
+                    echo '<td class="px-4 py-4">' . $student['nama'] . '</td>';
+                    echo '<td class="px-4 py-4">' . '</td>';
+                    echo '<td class="px-6 py-4">' . $student['kelas'] . '</td>';
+                    echo '</tr>';
+                }
+                ?>
+            </tbody>
+        </table>
     </div>
+</div>
 </div>
